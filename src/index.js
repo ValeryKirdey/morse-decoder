@@ -1,4 +1,4 @@
-const morse = {
+const MORSE_TABLE = {
     '.-': 'a',
     '-...': 'b',
     '-.-.': 'c',
@@ -38,11 +38,31 @@ const morse = {
 };
 
 function decode(expr) {
-    const morse2 = {}
-    for (let i in morse) {
-        morse2[morse[i]] = i
+    var everything = "";
+    while (true) {
+        var piece = "";
+        for (var j = 0; j < 5; j++) {
+            if (expr.substring(0, 2) == "**") {
+                expr = expr.substring(10);
+                everything += " ";
+            }
+
+            if (expr.substring(0, 2) == "10")
+                piece += ".";
+            else if (expr.substring(0, 2) == "11")
+                piece += "-";
+
+            expr = expr.substring(2);
+        }
+
+        if (piece)
+            everything += MORSE_TABLE[piece];
+
+        if (expr.length == 0)
+            break;
     }
-    return expr.split ` `.map(v => morse2[v] || ' ').join ``
+
+    return everything;
 }
 
 
